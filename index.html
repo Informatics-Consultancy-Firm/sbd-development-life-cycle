@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SBD ITN App - SDLC Flowchart</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #1a2a3a;
+            min-height: 100vh;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .flowchart-container {
+            max-width: 1400px;
+            width: 100%;
+            background: white;
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #0056a8;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 15px;
+        }
+        
+        /* Main Flow */
+        .main-flow {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+        
+        .flow-step {
+            flex: 1;
+            min-width: 180px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .flow-step:not(:last-child)::after {
+            content: "→";
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 28px;
+            color: #0056a8;
+            font-weight: bold;
+        }
+        
+        .step-box {
+            background: linear-gradient(135deg, #0056a8, #003d7a);
+            color: white;
+            padding: 20px 10px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,86,168,0.3);
+        }
+        
+        .step-box .phase {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        /* Increments Section */
+        .section-title {
+            color: #0056a8;
+            font-size: 1.5em;
+            margin: 40px 0 20px;
+            padding-left: 10px;
+            border-left: 5px solid #0056a8;
+            font-weight: 600;
+        }
+        
+        .increments {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .increment {
+            flex: 1;
+            min-width: 250px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .inc-header {
+            background: #0056a8;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .inc-content {
+            padding: 20px;
+        }
+        
+        .inc-content h4 {
+            color: #0056a8;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        .feature-list {
+            list-style: none;
+        }
+        
+        .feature-list li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+            font-size: 0.95em;
+        }
+        
+        .feature-list li:before {
+            content: "✓";
+            color: #28a745;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        /* Testing Components */
+        .testing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .test-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            border-top: 4px solid;
+        }
+        
+        .test-card.unit { border-color: #4299e1; }
+        .test-card.integration { border-color: #48bb78; }
+        .test-card.system { border-color: #ecc94b; }
+        .test-card.performance { border-color: #9f7aea; }
+        .test-card.security { border-color: #f56565; }
+        .test-card.uat { border-color: #ed8936; }
+        
+        .test-card h3 {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .test-items {
+            list-style: none;
+        }
+        
+        .test-items li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+            font-size: 0.9em;
+        }
+        
+        .test-items li:before {
+            content: "•";
+            color: #0056a8;
+            font-weight: bold;
+            position: absolute;
+            left: 5px;
+        }
+        
+        /* Testing Flow */
+        .testing-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        
+        .test-stage {
+            background: #0056a8;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 40px;
+            font-weight: bold;
+            min-width: 150px;
+            text-align: center;
+        }
+        
+        .test-stage:nth-child(2) { background: #48bb78; }
+        .test-stage:nth-child(3) { background: #ecc94b; color: #333; }
+        .test-stage:nth-child(4) { background: #9f7aea; }
+        .test-stage:nth-child(5) { background: #f56565; }
+        .test-stage:nth-child(6) { background: #ed8936; }
+        
+        .arrow {
+            font-size: 24px;
+            color: #0056a8;
+            font-weight: bold;
+        }
+        
+        /* UAT Section */
+        .uat-section {
+            background: #e8f4fd;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 40px 0;
+        }
+        
+        .uat-title {
+            color: #0056a8;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .uat-participants {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .participant {
+            text-align: center;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .participant .role {
+            font-weight: bold;
+            color: #0056a8;
+            margin-bottom: 5px;
+        }
+        
+        .participant .status {
+            color: #28a745;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+        
+        .uat-scenarios {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        
+        .scenario {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .scenario h4 {
+            color: #0056a8;
+            margin-bottom: 10px;
+        }
+        
+        /* QA Cycle */
+        .qa-cycle {
+            display: flex;
+            justify-content: space-around;
+            margin: 40px 0;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .qa-step {
+            text-align: center;
+            flex: 1;
+            min-width: 100px;
+        }
+        
+        .qa-circle {
+            width: 60px;
+            height: 60px;
+            background: #0056a8;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        /* Defect Flow */
+        .defect-flow {
+            background: #fff4e5;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+        
+        .defect-flow-title {
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .defect-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .defect-step {
+            background: #f56565;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+        
+        .defect-step.fixed { background: #48bb78; }
+        .defect-step.retest { background: #ecc94b; color: #333; }
+        
+        /* Legend */
+        .legend {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px dashed #ccc;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        
+        /* Role Colors */
+        .role-dhmt { color: #0056a8; font-weight: bold; }
+        .role-phu { color: #0e8da1; font-weight: bold; }
+        .role-dist { color: #6b28d4; font-weight: bold; }
+        
+        /* Test Summary */
+        .test-summary {
+            background: #f0f7ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(6,1fr);
+            gap: 10px;
+            text-align: center;
+        }
+        
+        .summary-item .test-type {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #0056a8;
+        }
+        
+        .summary-item .test-count {
+            color: #333;
+        }
+        
+        /* Final Status */
+        .final-status {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: #e8f5e9;
+            border-radius: 10px;
+        }
+        
+        .status-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #28a745;
+        }
+        
+        .status-subtitle {
+            margin-top: 10px;
+            color: #0056a8;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 1200px) {
+            .main-flow {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .flow-step:not(:last-child)::after {
+                content: "↓";
+                right: 50%;
+                top: auto;
+                bottom: -25px;
+                transform: translateX(50%);
+            }
+            
+            .testing-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .uat-participants {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .testing-grid,
+            .uat-participants,
+            .uat-scenarios {
+                grid-template-columns: 1fr;
+            }
+            
+            .summary-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="flowchart-container">
+        <h1>SBD ITN Distribution App</h1>
+        <div class="subtitle">Software Development Life Cycle - Flowchart</div>
+        
+        <!-- Main Development Flow -->
+        <div class="main-flow">
+            <div class="flow-step">
+                <div class="step-box">
+                    <div class="phase">REQUIREMENTS</div>
+                    <div style="font-size:0.8em; opacity:0.9;">Gathering & Analysis</div>
+                </div>
+            </div>
+            <div class="flow-step">
+                <div class="step-box">
+                    <div class="phase">DESIGN</div>
+                    <div style="font-size:0.8em; opacity:0.9;">Architecture & UI/UX</div>
+                </div>
+            </div>
+            <div class="flow-step">
+                <div class="step-box">
+                    <div class="phase">DEVELOPMENT</div>
+                    <div style="font-size:0.8em; opacity:0.9;">4 Increments</div>
+                </div>
+            </div>
+            <div class="flow-step">
+                <div class="step-box">
+                    <div class="phase">TESTING</div>
+                    <div style="font-size:0.8em; opacity:0.9;">6 Testing Types</div>
+                </div>
+            </div>
+            <div class="flow-step">
+                <div class="step-box">
+                    <div class="phase">DEPLOYMENT</div>
+                    <div style="font-size:0.8em; opacity:0.9;">Production Release</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Incremental Development -->
+        <div class="section-title">INCREMENTAL DEVELOPMENT</div>
+        <div class="increments">
+            <div class="increment">
+                <div class="inc-header">INCREMENT 1<br><span style="font-size:0.8em;">Core Infrastructure</span></div>
+                <div class="inc-content">
+                    <h4>Features:</h4>
+                    <ul class="feature-list">
+                        <li>User Authentication</li>
+                        <li>Database Schema</li>
+                        <li><span class="role-dhmt">DHMT Dashboard</span></li>
+                        <li>Dispatch Creation</li>
+                        <li>Basic UI Framework</li>
+                        <li>Navigation Flow</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="increment">
+                <div class="inc-header">INCREMENT 2<br><span style="font-size:0.8em;">PHU Features</span></div>
+                <div class="inc-content">
+                    <h4>Features:</h4>
+                    <ul class="feature-list">
+                        <li>Receipt Confirmation</li>
+                        <li>Discrepancy Detection</li>
+                        <li><span class="role-phu">Stock Management</span></li>
+                        <li>Distributor Dispatch</li>
+                        <li>End-of-Day Returns</li>
+                        <li>Secret Code Verification</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="increment">
+                <div class="inc-header">INCREMENT 3<br><span style="font-size:0.8em;">Distributor Features</span></div>
+                <div class="inc-content">
+                    <h4>Features:</h4>
+                    <ul class="feature-list">
+                        <li>Class 1-5 Distribution</li>
+                        <li>Boys/Girls Tracking</li>
+                        <li><span class="role-dist">Validation Rules</span></li>
+                        <li>School Progress</li>
+                        <li>Stock Calculations</li>
+                        <li>Summary Reports</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="increment">
+                <div class="inc-header">INCREMENT 4<br><span style="font-size:0.8em;">Integration</span></div>
+                <div class="inc-content">
+                    <h4>Features:</h4>
+                    <ul class="feature-list">
+                        <li>End-to-End Flow</li>
+                        <li>Data Synchronization</li>
+                        <li>Audit Logging</li>
+                        <li>Performance Tuning</li>
+                        <li>Security Hardening</li>
+                        <li>Final Integration</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Testing Flow -->
+        <div class="section-title">TESTING COMPONENTS</div>
+        
+        <div class="testing-flow">
+            <div class="test-stage">UNIT</div>
+            <div class="arrow">→</div>
+            <div class="test-stage">INTEGRATION</div>
+            <div class="arrow">→</div>
+            <div class="test-stage">SYSTEM</div>
+            <div class="arrow">→</div>
+            <div class="test-stage">PERFORMANCE</div>
+            <div class="arrow">→</div>
+            <div class="test-stage">SECURITY</div>
+            <div class="arrow">→</div>
+            <div class="test-stage">UAT</div>
+        </div>
+        
+        <!-- Detailed Testing -->
+        <div class="testing-grid">
+            <div class="test-card unit">
+                <h3>Unit Testing</h3>
+                <ul class="test-items">
+                    <li>Dispatch Total Calculation</li>
+                    <li>Class Validation Logic</li>
+                    <li>Stock Math Functions</li>
+                    <li>Discrepancy Detection</li>
+                    <li>Authentication Functions</li>
+                    <li>Form Validation</li>
+                </ul>
+            </div>
+            
+            <div class="test-card integration">
+                <h3>Integration Testing</h3>
+                <ul class="test-items">
+                    <li>API Endpoint Testing</li>
+                    <li>Database Operations</li>
+                    <li><span class="role-dhmt">DHMT → PHU Flow</span></li>
+                    <li><span class="role-phu">PHU → Distributor Flow</span></li>
+                    <li><span class="role-dist">Distributor → School Flow</span></li>
+                    <li>Return Stock Flow</li>
+                </ul>
+            </div>
+            
+            <div class="test-card system">
+                <h3>System Testing</h3>
+                <ul class="test-items">
+                    <li>End-to-End Workflows</li>
+                    <li>Role-Based Access</li>
+                    <li>Data Consistency</li>
+                    <li>UI/UX Validation</li>
+                    <li>Error Handling</li>
+                    <li>Offline Functionality</li>
+                </ul>
+            </div>
+            
+            <div class="test-card performance">
+                <h3>Performance Testing</h3>
+                <ul class="test-items">
+                    <li>Concurrent Users</li>
+                    <li>Response Time</li>
+                    <li>Load Testing</li>
+                    <li>Stress Testing</li>
+                    <li>Scalability Tests</li>
+                    <li>Database Performance</li>
+                </ul>
+            </div>
+            
+            <div class="test-card security">
+                <h3>Security Testing</h3>
+                <ul class="test-items">
+                    <li>SQL Injection Prevention</li>
+                    <li>Role-Based Access Control</li>
+                    <li>Data Encryption</li>
+                    <li>Session Management</li>
+                    <li>Secret Code Validation</li>
+                    <li>Audit Trail</li>
+                </ul>
+            </div>
+            
+            <div class="test-card uat">
+                <h3>UAT Testing</h3>
+                <ul class="test-items">
+                    <li><span class="role-dhmt">DHMT Officer Scenarios</span></li>
+                    <li><span class="role-phu">PHU Incharge Scenarios</span></li>
+                    <li><span class="role-dist">Distributor Scenarios</span></li>
+                    <li>Real Data Validation</li>
+                    <li>Workflow Approval</li>
+                    <li>Sign-off Process</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- QA Cycle -->
+        <div class="section-title">QUALITY ASSURANCE CYCLE</div>
+        <div class="qa-cycle">
+            <div class="qa-step">
+                <div class="qa-circle">1</div>
+                <div>Write Test Cases</div>
+            </div>
+            <div class="qa-step">
+                <div class="qa-circle">2</div>
+                <div>Execute Tests</div>
+            </div>
+            <div class="qa-step">
+                <div class="qa-circle">3</div>
+                <div>Log Defects</div>
+            </div>
+            <div class="qa-step">
+                <div class="qa-circle">4</div>
+                <div>Fix Bugs</div>
+            </div>
+            <div class="qa-step">
+                <div class="qa-circle">5</div>
+                <div>Retest</div>
+            </div>
+            <div class="qa-step">
+                <div class="qa-circle">6</div>
+                <div>Close/Verify</div>
+            </div>
+        </div>
+        
+        <!-- Defect Lifecycle -->
+        <div class="defect-flow">
+            <div class="defect-flow-title">Defect Lifecycle</div>
+            <div class="defect-steps">
+                <div class="defect-step">NEW</div>
+                <div class="arrow">→</div>
+                <div class="defect-step">ASSIGNED</div>
+                <div class="arrow">→</div>
+                <div class="defect-step fixed">FIXED</div>
+                <div class="arrow">→</div>
+                <div class="defect-step retest">RETEST</div>
+                <div class="arrow">→</div>
+                <div class="defect-step">VERIFIED</div>
+                <div class="arrow">→</div>
+                <div class="defect-step">CLOSED</div>
+            </div>
+        </div>
+        
+        <!-- UAT Section -->
+        <div class="uat-section">
+            <div class="uat-title">USER ACCEPTANCE TESTING (UAT)</div>
+            
+            <div class="uat-participants">
+                <div class="participant">
+                    <div class="role">DHMT Officer</div>
+                    <div class="status">✓ Approved</div>
+                </div>
+                <div class="participant">
+                    <div class="role">PHU Incharge</div>
+                    <div class="status">✓ Approved</div>
+                </div>
+                <div class="participant">
+                    <div class="role">Distributor</div>
+                    <div class="status">✓ Approved</div>
+                </div>
+                <div class="participant">
+                    <div class="role">School Rep</div>
+                    <div class="status">✓ Approved</div>
+                </div>
+                <div class="participant">
+                    <div class="role">Project Manager</div>
+                    <div class="status">✓ Approved</div>
+                </div>
+            </div>
+            
+            <div class="uat-scenarios">
+                <div class="scenario">
+                    <h4>Session 1</h4>
+                    <ul style="list-style:none;">
+                        <li>• Login Testing</li>
+                        <li>• Dispatch Creation</li>
+                        <li>• Dashboard Validation</li>
+                        <li><strong style="color:#28a745;">✓ All Passed</strong></li>
+                    </ul>
+                </div>
+                <div class="scenario">
+                    <h4>Session 2</h4>
+                    <ul style="list-style:none;">
+                        <li>• Receipt Confirmation</li>
+                        <li>• Discrepancy Alerts</li>
+                        <li>• Stock Management</li>
+                        <li><strong style="color:#28a745;">✓ All Passed</strong></li>
+                    </ul>
+                </div>
+                <div class="scenario">
+                    <h4>Session 3</h4>
+                    <ul style="list-style:none;">
+                        <li>• Class Distribution</li>
+                        <li>• Validation Rules</li>
+                        <li>• School Progress</li>
+                        <li><strong style="color:#28a745;">✓ All Passed</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Test Coverage Summary -->
+        <div class="test-summary">
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="test-type">Unit</div>
+                    <div class="test-count">22 Tests</div>
+                </div>
+                <div class="summary-item">
+                    <div class="test-type">Integration</div>
+                    <div class="test-count">18 Tests</div>
+                </div>
+                <div class="summary-item">
+                    <div class="test-type">System</div>
+                    <div class="test-count">25 Tests</div>
+                </div>
+                <div class="summary-item">
+                    <div class="test-type">Performance</div>
+                    <div class="test-count">12 Tests</div>
+                </div>
+                <div class="summary-item">
+                    <div class="test-type">Security</div>
+                    <div class="test-count">15 Tests</div>
+                </div>
+                <div class="summary-item">
+                    <div class="test-type">UAT</div>
+                    <div class="test-count">15 Scenarios</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background:#0056a8;"></div>
+                <span>Development Phase</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background:#48bb78;"></div>
+                <span>Testing Phase</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background:#ecc94b;"></div>
+                <span>QA/Validation</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background:#f56565;"></div>
+                <span>Defect Management</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background:#6b28d4;"></div>
+                <span>Role-Based</span>
+            </div>
+        </div>
+        
+        <!-- Final Status -->
+        <div class="final-status">
+            <div class="status-title">✓ ALL TESTING PHASES COMPLETED</div>
+            <div class="status-subtitle">Ready for Production Deployment</div>
+        </div>
+    </div>
+</body>
+</html>
